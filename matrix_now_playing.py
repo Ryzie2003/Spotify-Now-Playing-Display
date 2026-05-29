@@ -12,10 +12,15 @@ load_dotenv()
 
 scope = "user-read-currently-playing"
 
-sp = spotipy.Spotify(
-    auth_manager=SpotifyOAuth(scope=scope)
-)
+CACHE_PATH = "/home/ryan/Spotify-Now-Playing-Display/.spotify_token_cache"
 
+sp = spotipy.Spotify(
+    auth_manager=SpotifyOAuth(
+        scope=scope,
+        cache_path=CACHE_PATH,
+        open_browser=False
+    )
+)
 
 # ---------- Matrix setup ----------
 
@@ -26,6 +31,8 @@ options.chain_length = 1
 options.parallel = 1
 options.hardware_mapping = "adafruit-hat"
 options.gpio_slowdown = 4
+
+options.drop_privileges = False
 
 matrix = RGBMatrix(options=options)
 
